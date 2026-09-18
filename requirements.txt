@@ -1,0 +1,4 @@
+flask>=3.0,<4
+pydantic-settings>=2.4,<3
+playwright>=1.45  # только для живого транспорта MAX; тесты его не требуют
+pytest>=8

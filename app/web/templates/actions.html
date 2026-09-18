@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}На одобрение — Дежурный{% endblock %}
+{% block content %}
+<div class="sp-stack sp-prose">
+  <h1>На одобрение</h1>
+  <p class="sp-muted">Бот не делает ничего в MAX, пока действие не одобрено здесь.</p>
+</div>
+
+{% if rows %}
+  <div class="sp-table-wrap" style="margin-top:var(--space-6)">
+    <table class="sp-table sp-table--stack">
+      <thead><tr><th>Заявка</th><th>Что сделает</th><th>Зачем</th><th class="sp-end">Решение</th></tr></thead>
+      <tbody>
+      {% for a in rows %}
+        <tr>
+          <td data-label="Заявка">
+            <a class="sp-btn sp-btn--text" href="{{ url_for('ticket_detail', ticket_id=a.ticket_id) }}">
+              {{ a.ticket_title }}</a>
+            <p class="sp-muted">{{ a.requester_name }}{% if a.chat_title != a.requester_name %} · {{ a.chat_title }}{% endif %}</p></td>
+          <td data-label="Что сделает"><strong>{{ action_label(a.kind) }}</strong>
+            {% if a.payload.text %}<p class="sp-muted">{{ a.payload.text }}</p>{% endif %}
+            {% if a.payload.emoji %}<p class="sp-muted">Реакция: {{ a.payload.emoji }}</p>{% endif %}
+            {% if a.payload.script %}<p class="sp-muted">Сценарий: {{ a.payload.script }}</p>{% endif %}
+          </td>
+          <td data-label="Зачем">{{ a.rationale }}</td>
+          <td data-label="Решение" class="sp-end">
+            <div class="d-actions">
+              <form method="post" action="{{ url_for('approve_action', action_id=a.id) }}">
+                <button class="sp-btn sp-btn--sm">Одобрить</button></form>
+              <form method="post" action="{{ url_for('reject_action', action_id=a.id) }}">
+                <button class="sp-btn sp-btn--sm sp-btn--ghost">Отклонить</button></form>
+            </div></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="d-toolbar" style="margin-top:var(--space-6)">
+    <form method="post" action="{{ url_for('do_run_actions') }}">
+      <button class="sp-btn sp-btn--ghost">Выполнить всё одобренное</button></form>
+  </div>
+{% else %}
+  <div class="sp-empty" style="margin-top:var(--space-6)">
+    <h4>Очередь пуста</h4>
+    <p>Бот не предлагает действий. Прочитайте новые сообщения на странице сводки.</p>
+    <a class="sp-btn sp-btn--soft" href="{{ url_for('index') }}">К сводке</a></div>
+{% endif %}
+{% endblock %}

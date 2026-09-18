@@ -1,0 +1,22 @@
+<div class="sp-table-wrap">
+  <table class="sp-table sp-table--stack">
+    <thead><tr>
+      <th>Заявка</th><th>Автор</th><th>Откуда</th><th>Статус</th><th>Решение</th>
+    </tr></thead>
+    <tbody>
+    {% for t in (recent if recent is defined else rows) %}
+      <tr>
+        <td data-label="Заявка">
+          <a class="sp-btn sp-btn--text" href="{{ url_for('ticket_detail', ticket_id=t.id) }}">
+            {{ t.title }}</a></td>
+        <td data-label="Автор">{{ t.requester_name }}</td>
+        <td data-label="Откуда">{% if t.chat_title == t.requester_name %}личные сообщения{% else %}{{ t.chat_title }}{% endif %}</td>
+        <td data-label="Статус">
+          <span class="sp-badge sp-badge--{{ status_variant(t.status) }} sp-badge--dot">
+            {{ status_label(t.status) }}</span></td>
+        <td data-label="Решение">{{ resolution_label(t.resolution) }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>

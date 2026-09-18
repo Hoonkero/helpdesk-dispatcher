@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Сводка — Дежурный{% endblock %}
+{% block content %}
+<div class="sp-stack sp-prose">
+  <p class="eyebrow">Режим {{ settings.dispatcher_mode.value }}</p>
+  <h1>Сводка</h1>
+</div>
+
+<div class="d-kpi" style="margin:var(--space-8) 0">
+  <article class="sp-card"><p class="sp-muted">Всего заявок</p>
+    <h2 class="sp-num">{{ stats.total }}</h2></article>
+  <article class="sp-card"><p class="sp-muted">В работе</p>
+    <h2 class="sp-num">{{ stats.open }}</h2></article>
+  <article class="sp-card"><p class="sp-muted">Решено</p>
+    <h2 class="sp-num">{{ stats.resolved }}</h2></article>
+  <article class="sp-card"><p class="sp-muted">Ждут одобрения</p>
+    <h2 class="sp-num">{{ stats.pending_actions }}</h2></article>
+</div>
+
+<div class="sp-card" style="margin-bottom:var(--space-8)">
+  <h4>Работа с MAX</h4>
+  <p class="sp-muted">Транспорт: {{ transport_name }}. Чаты заявок:
+    {{ settings.watch_chats | join(', ') }}. Приглушённые чаты
+    {{ 'не читаются' if settings.max_ignore_muted else 'читаются' }}.</p>
+  <div class="sp-card__footer d-toolbar">
+    <form method="post" action="{{ url_for('do_poll') }}">
+      <button class="sp-btn">Прочитать новое</button></form>
+    <form method="post" action="{{ url_for('do_run_actions') }}">
+      <button class="sp-btn sp-btn--ghost">Выполнить одобренное</button></form>
+  </div>
+</div>
+
+<div class="sp-stack">
+  <h3>Последние заявки</h3>
+  {% if recent %}
+    {% include "_tickets_table.html" %}
+  {% else %}
+    <div class="sp-empty"><h4>Заявок пока нет</h4>
+      <p>Нажмите «Прочитать новое», чтобы бот разобрал сообщения из чатов.</p></div>
+  {% endif %}
+</div>
+{% endblock %}

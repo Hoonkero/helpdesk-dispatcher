@@ -1,0 +1,58 @@
+{
+  "me": {"id": "u-me", "name": "Дежурный (поддержка)"},
+  "chats": [
+    {
+      "id": "c-it-main", "title": "ИТ Заявки", "kind": "group", "muted": false, "pinned": true,
+      "messages": [
+        {"id": "m1", "author": "Елена Сергеевна К", "text": "Добрый день, нужна помощь со смарт панелью в 214, не показывает изображение", "minutes_ago": 95},
+        {"id": "m2", "author": "Ольга Белова", "text": "Хэлп, опять что-то с тонером", "minutes_ago": 90},
+        {"id": "m3", "author": "Максим Р", "text": "Всем привет. Учетная запись отключена, не могу войти", "minutes_ago": 83},
+        {"id": "m4", "author": "Анна Игоревна Д", "text": "Помогите зайти в Клауд", "minutes_ago": 75},
+        {"id": "m5", "author": "Ирина Т", "text": "Напоминаю: вход через центральный холл до 8:20", "minutes_ago": 70},
+        {"id": "m6", "author": "Людмила В", "text": "Нет доступа", "minutes_ago": 65},
+        {"id": "m7", "author": "Галина Петровна Н", "text": "Нужно обновить макс, старая версия не открывает файлы", "minutes_ago": 60},
+        {"id": "m8", "author": "Светлана Морозова", "text": "спасибо, всё работает", "minutes_ago": 55},
+        {"id": "m9", "author": "Павел Ж", "text": "Не понимаю как поставить принтер на новый компьютер", "minutes_ago": 50},
+        {"id": "m10", "author": "Нина Андреевна", "text": "Не работает интернет в 118, у соседей тоже", "minutes_ago": 40},
+        {"id": "m11", "author": "Олег Ф", "text": "Забыл пароль от рабочей почты, что делать?", "minutes_ago": 30},
+        {"id": "m12", "author": "Елена Сергеевна К", "text": "И ещё принтер в 214 бледно печатает", "minutes_ago": 20, "reactions": ["👌"]}
+      ]
+    },
+    {
+      "id": "c-it-branch", "title": "ИТ Филиал", "kind": "group", "muted": true,
+      "messages": [
+        {"id": "m1", "author": "Кто-то", "text": "Приглушённый чат: бот не должен его читать", "minutes_ago": 30}
+      ]
+    },
+    {
+      "id": "c-boltalka", "title": "Болталка", "kind": "group", "muted": true,
+      "messages": [
+        {"id": "m1", "author": "Кто-то", "text": "Тоже приглушённый", "minutes_ago": 25}
+      ]
+    },
+    {
+      "id": "d-viktor", "title": "Виктор Павлович Орлов", "kind": "direct", "muted": false,
+      "messages": [
+        {"id": "m1", "author": "Виктор Павлович Орлов", "text": "ivanova.a@example.org Привет в блоке человек)", "minutes_ago": 45}
+      ]
+    },
+    {
+      "id": "d-olga", "title": "Ольга Белова", "kind": "direct", "muted": false,
+      "messages": [
+        {"id": "m1", "author": "Ольга Белова", "text": "Это опять я, тонер в 305 кабинете", "minutes_ago": 35}
+      ]
+    },
+    {
+      "id": "d-maxim", "title": "Максим Р", "kind": "direct", "muted": false,
+      "messages": [
+        {"id": "m1", "author": "Максим Р", "text": "код аспии 123 456 789, можешь глянуть", "minutes_ago": 15}
+      ]
+    },
+    {
+      "id": "d-pavel", "title": "Павел Ж", "kind": "direct", "muted": false,
+      "messages": [
+        {"id": "m1", "author": "Павел Ж", "text": "Принтер нужен сетевой, кабинет 402", "minutes_ago": 10}
+      ]
+    }
+  ]
+}

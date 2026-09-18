@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Дежурный{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='shared/tokens.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='shared/ui.css') }}">
+  <script src="{{ url_for('static', filename='shared/ui.js') }}" defer></script>
+  <style>
+    .d-kpi{display:grid;gap:var(--space-4);grid-template-columns:repeat(auto-fit,minmax(11rem,1fr))}
+    .d-kpi h2{margin-top:var(--space-1)}
+    .d-layout{display:grid;gap:var(--space-8);grid-template-columns:minmax(0,1fr)}
+    @media (min-width:1024px){.d-layout--split{grid-template-columns:minmax(0,2fr) minmax(0,1fr)}}
+    .d-log{list-style:none;margin:0;padding:0;display:grid;gap:var(--space-3)}
+    .d-log li{display:grid;gap:var(--space-1);padding-bottom:var(--space-3);
+      border-bottom:1px solid var(--line)}
+    .d-log li:last-child{border-bottom:0;padding-bottom:0}
+    .d-actions{display:flex;gap:var(--space-2);flex-wrap:wrap;align-items:center}
+    .d-pre{background:var(--surface-soft);border:1px solid var(--line);
+      border-radius:var(--radius-sm);padding:var(--space-3);overflow:auto;
+      font-family:var(--font-mono);margin:0;white-space:pre-wrap}
+    .d-filters{display:flex;gap:var(--space-2);flex-wrap:wrap}
+    .d-toolbar{display:flex;gap:var(--space-3);flex-wrap:wrap;align-items:center}
+    .d-guard{margin-bottom:var(--space-6)}
+  </style>
+</head>
+<body>
+<a class="sp-skip" href="#main">К содержимому</a>
+<div class="sp-page">
+  <header class="sp-header">
+    <a class="sp-logo" href="{{ url_for('index') }}"><b>ДЕЖУРНЫЙ</b><span>Первая линия</span></a>
+    <nav class="sp-header__actions d-actions">
+      <a class="sp-btn sp-btn--text" href="{{ url_for('index') }}">Сводка</a>
+      <a class="sp-btn sp-btn--text" href="{{ url_for('tickets') }}">Заявки</a>
+      <a class="sp-btn sp-btn--text" href="{{ url_for('actions') }}">
+        На одобрение{% if stats.pending_actions %} <span class="sp-chip__count">{{ stats.pending_actions }}</span>{% endif %}</a>
+      <span data-sp-theme-toggle></span>
+    </nav>
+  </header>
+
+  <main id="main" class="sp-section">
+    {% if settings.safe_mode %}
+      <div class="sp-alert sp-alert--warning d-guard" role="status">
+        <div><strong>Предохранитель включён</strong>
+        Ни одно действие не уходит в MAX: реакции и сообщения только планируются.
+        Снимается параметром SAFE_MODE в файле настроек.</div>
+      </div>
+    {% endif %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for kind, text in messages %}
+        <div class="sp-alert {{ 'sp-alert--danger' if kind == 'danger' else 'sp-alert--success' }} d-guard"
+             role="status"><div>{{ text }}</div></div>
+      {% endfor %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+</div>
+</body>
+</html>

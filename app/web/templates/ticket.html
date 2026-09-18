@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block title %}{{ ticket.title }} — Дежурный{% endblock %}
+{% block content %}
+<div class="sp-stack sp-prose">
+  <p class="eyebrow">Заявка {{ ticket.id }}</p>
+  <h1>{{ ticket.title }}</h1>
+  <p class="sp-muted">{{ ticket.requester_name }} · {% if ticket.chat_title == ticket.requester_name %}личные сообщения{% else %}{{ ticket.chat_title }}{% endif %} ·
+    создана {{ ticket.created_at | human_time }}</p>
+</div>
+
+<div class="d-layout d-layout--split" style="margin-top:var(--space-8)">
+  <div class="sp-stack">
+    <article class="sp-card">
+      <h4>Что написал человек</h4>
+      <p class="d-pre">{{ ticket.original_text }}</p>
+      {% if ticket.description %}<p class="sp-muted">{{ ticket.description }}</p>{% endif %}
+    </article>
+
+    <article class="sp-card">
+      <h4>Действия бота</h4>
+      {% if ticket_actions %}
+        <div class="sp-table-wrap">
+          <table class="sp-table sp-table--stack">
+            <thead><tr><th>Что</th><th>Зачем</th><th>Статус</th><th class="sp-end">Решение</th></tr></thead>
+            <tbody>
+            {% for a in ticket_actions %}
+              <tr>
+                <td data-label="Что"><strong>{{ action_label(a.kind) }}</strong>
+                  {% if a.payload.text %}<p class="sp-muted">{{ a.payload.text }}</p>{% endif %}
+                  {% if a.payload.script %}<p class="sp-muted">Сценарий: {{ a.payload.script }}</p>{% endif %}
+                  {% if a.payload.emoji %}<p class="sp-muted">Реакция: {{ a.payload.emoji }}</p>{% endif %}
+                  {% if a.result %}<p class="sp-muted">Результат: {{ a.result }}</p>{% endif %}
+                </td>
+                <td data-label="Зачем">{{ a.rationale }}</td>
+                <td data-label="Статус">
+                  <span class="sp-badge sp-badge--{{ action_variant(a.status) }}">
+                    {{ action_status_label(a.status) }}</span></td>
+                <td data-label="Решение" class="sp-end">
+                  {% if a.status == 'proposed' %}
+                    <div class="d-actions">
+                      <form method="post" action="{{ url_for('approve_action', action_id=a.id) }}">
+                        <button class="sp-btn sp-btn--sm">Одобрить</button></form>
+                      <form method="post" action="{{ url_for('reject_action', action_id=a.id) }}">
+                        <button class="sp-btn sp-btn--sm sp-btn--ghost">Отклонить</button></form>
+                    </div>
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <p class="sp-muted">Бот не предложил ни одного действия.</p>
+      {% endif %}
+    </article>
+  </div>
+
+  <div class="sp-stack">
+    <article class="sp-card">
+      <h4>Состояние</h4>
+      <p><span class="sp-badge sp-badge--{{ status_variant(ticket.status) }} sp-badge--dot">
+        {{ status_label(ticket.status) }}</span></p>
+      <p class="sp-muted">Категория: {{ category_label(ticket.category) }}<br>
+        Решение: {{ resolution_label(ticket.resolution) }}<br>
+        Уверенность: <span class="sp-num">{{ ticket.confidence }}</span>
+        ({{ ticket.classified_by }})<br>
+        Подтверждено человеком: {{ 'да' if ticket.user_confirmed else 'нет' }}</p>
+      <div class="sp-card__footer d-actions">
+        <form method="post" action="{{ url_for('close_ticket', ticket_id=ticket.id) }}">
+          <button class="sp-btn sp-btn--sm sp-btn--soft">Закрыл вручную</button></form>
+      </div>
+    </article>
+
+    <article class="sp-card">
+      <h4>Известные данные</h4>
+      {% if ticket.entities %}
+        <p class="sp-muted">
+        {% for key, value in ticket.entities.items() %}
+          {{ entity_label(key) }}: <code class="sp-code">{{ value }}</code><br>
+        {% endfor %}</p>
+      {% else %}<p class="sp-muted">Ничего не извлечено из текста.</p>{% endif %}
+    </article>
+
+    <article class="sp-card">
+      <h4>Журнал</h4>
+      <ul class="d-log">
+        {% for entry in ticket.work_log %}
+          <li><span class="sp-muted sp-num">{{ entry.at | human_time }}</span>
+              <span>{{ entry.text }}</span></li>
+        {% endfor %}
+      </ul>
+    </article>
+  </div>
+</div>
+{% endblock %}

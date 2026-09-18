@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Заявки — Дежурный{% endblock %}
+{% block content %}
+<div class="sp-stack sp-prose"><h1>Заявки</h1></div>
+
+<div class="d-filters" style="margin:var(--space-6) 0">
+  <a class="sp-chip" aria-pressed="{{ 'true' if not current else 'false' }}"
+     href="{{ url_for('tickets') }}">Все <span class="sp-chip__count">{{ stats.total }}</span></a>
+  {% for value, label, count in filters %}
+    <a class="sp-chip" aria-pressed="{{ 'true' if current == value else 'false' }}"
+       href="{{ url_for('tickets', status=value) }}">{{ label }}
+       <span class="sp-chip__count">{{ count }}</span></a>
+  {% endfor %}
+</div>
+
+{% if rows %}
+  {% include "_tickets_table.html" %}
+{% else %}
+  <div class="sp-empty"><h4>Ничего не найдено</h4>
+    <p>По этому фильтру заявок нет.</p>
+    <a class="sp-btn sp-btn--soft" href="{{ url_for('tickets') }}">Показать все</a></div>
+{% endif %}
+{% endblock %}
