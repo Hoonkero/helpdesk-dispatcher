@@ -1,4 +1,3 @@
-/* @ds-bundle: {"format":4,"namespace":"SP","components":[{"name":"Button"},{"name":"Field"},{"name":"Check"},{"name":"Card"},{"name":"Badge"},{"name":"Chip"},{"name":"Tabs"},{"name":"Nav"},{"name":"Alert"},{"name":"Toast"},{"name":"Dialog"},{"name":"Table"},{"name":"Pagination"},{"name":"Progress"},{"name":"EmptyState"},{"name":"Header"},{"name":"ThemeToggle"},{"name":"Layout"}]} */
 /* SoftPanel UI (ui.js) — без зависимостей. window.SP.
    Два способа: 1) пишете HTML с классами sp-* и зовёте SP.init(); 2) создаёте элементы фабриками SP.Button({...}). */
 (function () {
