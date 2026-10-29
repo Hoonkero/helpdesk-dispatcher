@@ -98,7 +98,7 @@ class TestMissing(unittest.TestCase):
     def test_escalation_needs_email(self) -> None:
         self.assertEqual(missing_entities(Resolution.escalate_email, {}), ["email"])
         self.assertEqual(
-            missing_entities(Resolution.escalate_email, {"email": "a@b.ru"}), [])
+            missing_entities(Resolution.escalate_email, {"email": "a@example.org"}), [])
 
     def test_remote_script_needs_code(self) -> None:
         self.assertEqual(missing_entities(Resolution.remote_script, {}), ["aspia_code"])

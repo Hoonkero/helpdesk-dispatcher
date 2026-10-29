@@ -13,9 +13,9 @@ from app.transports.base import MaxTransport, WriteForbidden
 IT_MAIN = ChatInfo("chat-it-main", "ИТ Заявки", is_group=True, is_muted=False)
 IT_BRANCH = ChatInfo("chat-it-branch", "ИТ Филиал", is_group=True, is_muted=True)
 BOLTALKA = ChatInfo("chat-boltalka", "Болталка", is_group=True, is_muted=True)
-DM_OLGA = ChatInfo("dm-olga", "Ольга Белова", is_group=False, is_muted=False)
-DM_VIKTOR = ChatInfo("dm-viktor", "Виктор Павлович Орлов", is_group=False, is_muted=False)
-DM_MAXIM = ChatInfo("dm-maxim", "Максим Р", is_group=False, is_muted=False)
+DM_OLGA = ChatInfo("dm-olga", "Демо-сотрудник 11", is_group=False, is_muted=False)
+DM_VIKTOR = ChatInfo("dm-viktor", "Демо-сотрудник 02", is_group=False, is_muted=False)
+DM_MAXIM = ChatInfo("dm-maxim", "Демо-сотрудник 08", is_group=False, is_muted=False)
 
 
 def _seed() -> dict[str, list[IncomingMessage]]:
@@ -33,24 +33,24 @@ def _seed() -> dict[str, list[IncomingMessage]]:
 
     return {
         IT_MAIN.external_id: [
-            msg(IT_MAIN, 1, "Елена Сергеевна К", "Добрый день, нужна помощь со смарт панелью в 214, не показывает изображение", 0),
-            msg(IT_MAIN, 2, "Ольга Белова", "Хэлп, опять что-то с тонером", 5),
-            msg(IT_MAIN, 3, "Максим Р", "Всем привет. Учетная запись отключена, не могу войти", 12),
-            msg(IT_MAIN, 4, "Анна Игоревна Д", "Помогите зайти в Клауд", 20),
-            msg(IT_MAIN, 5, "Ирина Т", "Напоминаю: вход через центральный holl до 8:20", 25),
-            msg(IT_MAIN, 6, "Людмила В", "Нет доступа", 30),
-            msg(IT_MAIN, 7, "Галина Петровна Н", "Нужно обновить макс, у меня старая версия не открывает файлы", 35),
-            msg(IT_MAIN, 8, "Светлана Морозова", "спасибо, всё работает", 40),
-            msg(IT_MAIN, 9, "Павел Ж", "Не понимаю как поставить принтер на новый компьютер", 45),
+            msg(IT_MAIN, 1, "Демо-сотрудник 04", "Добрый день, нужна помощь со смарт панелью в 214, не показывает изображение", 0),
+            msg(IT_MAIN, 2, "Демо-сотрудник 11", "Хэлп, опять что-то с тонером", 5),
+            msg(IT_MAIN, 3, "Демо-сотрудник 08", "Всем привет. Учетная запись отключена, не могу войти", 12),
+            msg(IT_MAIN, 4, "Демо-сотрудник 01", "Помогите зайти в Клауд", 20),
+            msg(IT_MAIN, 5, "Демо-сотрудник 05", "Напоминаю: вход через центральный holl до 8:20", 25),
+            msg(IT_MAIN, 6, "Демо-сотрудник 07", "Нет доступа", 30),
+            msg(IT_MAIN, 7, "Демо-сотрудник 03", "Нужно обновить макс, у меня старая версия не открывает файлы", 35),
+            msg(IT_MAIN, 8, "Демо-сотрудник 13", "спасибо, всё работает", 40),
+            msg(IT_MAIN, 9, "Демо-сотрудник 12", "Не понимаю как поставить принтер на новый компьютер", 45),
         ],
         DM_VIKTOR.external_id: [
-            msg(DM_VIKTOR, 1, "Виктор Павлович Орлов", "ivanova.a@example.org Привет в блоке человек)", 50),
+            msg(DM_VIKTOR, 1, "Демо-сотрудник 02", "ivanova.a@example.org Привет в блоке человек)", 50),
         ],
         DM_OLGA.external_id: [
-            msg(DM_OLGA, 1, "Ольга Белова", "Это опять я, тонер в 305 кабинете", 55),
+            msg(DM_OLGA, 1, "Демо-сотрудник 11", "Это опять я, тонер в 305 кабинете", 55),
         ],
         DM_MAXIM.external_id: [
-            msg(DM_MAXIM, 1, "Максим Р", "код аспии 123 456 789, можешь глянуть", 60),
+            msg(DM_MAXIM, 1, "Демо-сотрудник 08", "код аспии 123 456 789, можешь глянуть", 60),
         ],
         IT_BRANCH.external_id: [
             msg(IT_BRANCH, 1, "Кто-то", "Это приглушённый чат, бот его читать не должен", 65),

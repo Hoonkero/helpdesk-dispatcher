@@ -44,7 +44,7 @@ class TestFollowUpAcrossChats(ConversationCase):
         """Яна пишет про тонер в чат, а кабинет присылает в личку."""
         self.pipeline.poll_once()
         tickets = [r for r in self.store.tickets(limit=200)
-                   if r["requester_name"] == "Ольга Белова"]
+                   if r["requester_name"] == "Демо-сотрудник 11"]
         self.assertEqual(len(tickets), 1, "должна быть одна заявка, а не две")
         entities = json.loads(tickets[0]["entities"])
         self.assertEqual(entities.get("room"), "305")
@@ -52,15 +52,15 @@ class TestFollowUpAcrossChats(ConversationCase):
     def test_clarification_still_missing_is_reported_honestly(self) -> None:
         """Антону нужна почта, а он присылает код Aspia — заявка не должна «поехать»."""
         self.pipeline.poll_once()
-        ticket = self.ticket_of("Максим Р")
+        ticket = self.ticket_of("Демо-сотрудник 08")
         self.assertEqual(ticket["status"], TicketStatus.clarifying.value)
         self.assertIn("всё ещё не хватает: email", self.log_text(int(ticket["id"])))
 
     def test_answer_unblocks_the_ticket(self) -> None:
         """Как только пришла почта, заявка уходит в работу и планирует эскалацию."""
         self.pipeline.poll_once()
-        ticket_id = int(self.ticket_of("Максим Р")["id"])
-        self.transport.inject(DM_MAXIM, "Максим Р", "почта maxim.r@example.org")
+        ticket_id = int(self.ticket_of("Демо-сотрудник 08")["id"])
+        self.transport.inject(DM_MAXIM, "Демо-сотрудник 08", "почта maxim.r@example.org")
         self.pipeline.poll_once()
 
         ticket = self.store.ticket(ticket_id)
@@ -71,7 +71,7 @@ class TestFollowUpAcrossChats(ConversationCase):
     def test_no_duplicate_ticket_from_follow_up(self) -> None:
         before = len(self.store.tickets(limit=500)) if self.pipeline.poll_once() else 0
         before = len(self.store.tickets(limit=500))
-        self.transport.inject(DM_OLGA, "Ольга Белова", "кабинет всё тот же, 305")
+        self.transport.inject(DM_OLGA, "Демо-сотрудник 11", "кабинет всё тот же, 305")
         self.pipeline.poll_once()
         self.assertEqual(len(self.store.tickets(limit=500)), before)
 
@@ -80,10 +80,10 @@ class TestConfirmationClosesTicket(ConversationCase):
     def test_user_confirmation_plans_done_reaction(self) -> None:
         """«Всё работает» закрывает заявку и ставит галочку на исходном сообщении."""
         self.pipeline.poll_once()
-        ticket_id = int(self.ticket_of("Ольга Белова")["id"])
+        ticket_id = int(self.ticket_of("Демо-сотрудник 11")["id"])
         source_message = self.store.ticket(ticket_id)["source_message_id"]
 
-        self.transport.inject(DM_OLGA, "Ольга Белова", "спасибо, всё работает")
+        self.transport.inject(DM_OLGA, "Демо-сотрудник 11", "спасибо, всё работает")
         self.pipeline.poll_once()
 
         ticket = self.store.ticket(ticket_id)
@@ -107,7 +107,7 @@ class TestConfirmationClosesTicket(ConversationCase):
                             self.cfg)
         pipeline.poll_once()
         marina = [r for r in store.tickets(limit=500)
-                  if r["requester_name"] == "Светлана Морозова"]
+                  if r["requester_name"] == "Демо-сотрудник 13"]
         self.assertEqual(marina, [], "«спасибо, всё работает» не должно стать заявкой")
 
 
@@ -115,7 +115,7 @@ class TestAnnouncementsIgnored(ConversationCase):
     def test_broadcast_gets_no_ticket_and_no_reaction(self) -> None:
         self.pipeline.poll_once()
         polina = [r for r in self.store.tickets(limit=500)
-                  if r["requester_name"] == "Ирина Т"]
+                  if r["requester_name"] == "Демо-сотрудник 05"]
         self.assertEqual(polina, [], "объявление не должно становиться заявкой")
 
 
